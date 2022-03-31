@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 
 import {  
     selectMovies, 
-} from '../../../features/movies/movieSlice'; 
+} from '../../../core/movies/movieSlice'; 
 import * as Styled from './index.styles'
 
 const RowItem = ({label, value}) => { 

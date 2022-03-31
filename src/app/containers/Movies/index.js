@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { 
   fetchMovies, 
   selectMovies, 
-} from '../../../features/movies/movieSlice'; 
+} from '../../../core/movies/movieSlice'; 
 import ListItem from '../../components/ListItem';
 import * as Styled from './index.styles'
 
