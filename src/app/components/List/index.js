@@ -3,7 +3,7 @@ import React from "react";
 import ListItem from "../ListItem";
 
 const List = ({ data }) => {
-    if (!data || data.length == 0) {
+    if (data && data.length == 0) {
         return (
             <p>Search yields no results!</p>
         )
