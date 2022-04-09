@@ -14,8 +14,3 @@ export const Input = styled.input`
     fontSize: 18px;
 `
 
-export const Loading = styled.p`
-    text-style: italic;
-    font-size: 20px;
-    color: black;
-`

@@ -1,8 +1,14 @@
 import React from "react";
 
 import ListItem from "../ListItem";
+import * as Styled from './index.styles'
 
-const List = ({ data }) => {
+const List = ({ loading, data }) => {
+    if (loading) {
+        return (
+            <Styled.Loading>Loading...</Styled.Loading>
+        )
+    }
     if (data && data.length == 0) {
         return (
             <p>Search yields no results!</p>
