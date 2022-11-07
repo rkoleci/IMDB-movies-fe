@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Container from "../../components/Container";
 import { selectMovies } from "../../../core/movies/movieSlice";
 
-const RowItem = ({ label, value }) => {
+const RowItem = ({ label, value }: {label: string, value: string}) => {
   if (label === "image") {
     return <Image width={'100px'} src={value} alt={label} />;
   }

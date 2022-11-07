@@ -1,7 +1,13 @@
 import React from "react";
 import { ListItem, Link, Text, Image } from "@chakra-ui/react";
 
-const MovieListItem = ({ id, title, image }) => {
+interface IProps {
+  id: string;
+  title: string;
+  image: string;
+}
+
+const MovieListItem = ({ id, title, image }: IProps) => {
   return (
     <ListItem>
       <Link href={`/movie/${id}`}>
