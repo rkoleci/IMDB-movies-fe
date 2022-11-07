@@ -4,7 +4,7 @@ import { Text, Image, Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import Container from "../../components/Container";
-import { selectMovies } from "../../../core/movies/movieSlice";
+import { selectMovies } from "../../../redux/movies/movieSlice";
 
 const RowItem = ({ label, value }: {label: string, value: string}) => {
   if (label === "image") {
