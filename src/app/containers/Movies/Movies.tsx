@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Text, Input, Select } from "@chakra-ui/react";
 
 import Container from "../../components/Container";
-import { fetchMovies, selectMovies } from "../../../core/movies/movieSlice";
+import { fetchMovies, selectMovies } from "../../../redux/movies/movieSlice";
 import MoviesList from "../../components/MoviesList";
 
 /* API Key expired after too many hits */
@@ -11,6 +11,7 @@ import MoviesList from "../../components/MoviesList";
 
 const Movies = () => {
   const movies = useSelector(selectMovies);
+  console.log(111, 'moveies', movies.status)
   const [list, setList] = useState(movies?.data ?? []);
   const [genreList, setGenreList] = useState([]);
   const dispatch = useDispatch();
