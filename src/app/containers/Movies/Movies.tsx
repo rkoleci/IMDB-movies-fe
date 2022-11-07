@@ -35,7 +35,7 @@ const Movies = () => {
             key: i,
             value: i,
           };
-        })
+        }) as any
       );
     }
   }, [movies]); //memo
@@ -52,7 +52,8 @@ const Movies = () => {
     );
   };
 
-  const onFilter = (e) => {// debounce
+  const onFilter = (e) => {
+    // debounce
     const term = e.target.value;
 
     if (!term) {
