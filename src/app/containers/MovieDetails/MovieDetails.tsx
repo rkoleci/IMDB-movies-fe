@@ -1,55 +1,59 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Text, Image, Box } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Text, Image, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
-import Container from "../../components/Container";
-import { selectMovies } from "../../../redux/movies/movieSlice";
-
-const RowItem = ({ label, value }: {label: string, value: string}) => {
-  if (label === "image") {
-    return <Image width={'100px'} src={value} alt={label} />;
-  }
-
-  if (Array.isArray(value)) {
-    return (
-      <div>
-        <Text>{label}</Text>
-        {value.map((i) => (
-          <div>
-            {Object.keys(i).map((j) => (
-              <Text>{`${j}: ${i[j]}`}</Text>
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <Box>
-      <Text>{`${label}: `}</Text>
-      <Text>{value} </Text>
-    </Box>
-  );
-};
+import Container from '@components/Container'
+import { selectMovies } from "@redux/movies/movieSlice";
+import { Movie, MovieState } from "@redux/movies/types";
+import { useAppSelector } from "@app/hooks";
+import InfoItem from "@containers/MovieDetails/InfoItem";
 
 const MovieDetails = () => {
   const { id } = useParams();
-  const movies = useSelector(selectMovies);
-  const [data, setData] = useState();
+  const movies: MovieState = useAppSelector(selectMovies) as MovieState;
+  const [data, setData] = useState<Movie>();
 
   useEffect(() => {
     if (id) {
-      setData(movies?.data?.find((i) => i.id === id));
+      setData(movies?.data?.find((item: Movie) => item.id === id));
     }
   }, [id, movies?.data]);
 
   return (
     <Container>
       <Text>Movie Details</Text>
-      {data &&
-        Object.keys(data).map((k) => <RowItem label={k} value={data[k]} />)}
+      {data && (
+        <Grid
+          templateColumns={{
+            md: "repeat(1, 1fr)",
+            xl: "repeat(6, 1fr)",
+          }}
+          gap={6}
+        >
+          <GridItem w="100%" colSpan={2}>
+            <Image
+              objectFit={"cover"}
+              width={"100%"}
+              maxH={{
+                md: "300px",
+                xl: "100%",
+              }}
+              src={data?.image}
+              alt={data?.title}
+            />
+          </GridItem>
+          <GridItem w="100%" colSpan={4}>
+            <Flex flexDir="column" gridGap={6}>
+              <InfoItem label={"Title"} value={data?.title} />
+              <InfoItem label={"Time"} value={data?.runtimeStr} />
+              <InfoItem label={"Description"} value={data?.description} />
+              <InfoItem label={"Genres"} value={data?.genreList} />
+              <InfoItem label={"Stars"} value={data?.starList} />
+            </Flex>
+          </GridItem>
+        </Grid>
+      )}
+      {!id || (!data && <Text>Movie not found!</Text>)}
     </Container>
   );
 };

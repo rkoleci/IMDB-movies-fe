@@ -1,88 +1,61 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Text, Input, Select } from "@chakra-ui/react";
+import React, { useState, useMemo, useCallback } from "react";
+import { Text, Input, HStack } from "@chakra-ui/react";
+import debounce from "lodash.debounce";
 
-import Container from "../../components/Container";
-import { fetchMovies, selectMovies } from "../../../redux/movies/movieSlice";
-import MoviesList from "../../components/MoviesList";
+import Container from "@components/Container";
+import Select from "@components/Select";
+import MoviesVirtualList from "@components/MoviesVirtualList";
+import { MovieState } from "@redux/movies/types";
+import { selectMovies } from "@redux/movies/movieSlice";
+import { useAppSelector } from "@app/hooks";
+import { extractGenreList, filterMovies } from "@containers/Movies/helpers";
 
-/* API Key expired after too many hits */
-/* Genre filter has priority over title search */
+/* API Key expires after 140 hits */
 
 const Movies = () => {
-  const movies = useSelector(selectMovies);
-  console.log(111, 'moveies', movies.status)
-  const [list, setList] = useState(movies?.data ?? []);
-  const [genreList, setGenreList] = useState([]);
-  const dispatch = useDispatch();
+  const { data, status }: MovieState = useAppSelector(
+    selectMovies
+  ) as MovieState;
+  const [genre, setGenre] = useState();
+  const [filter, setFilter] = useState();
 
-  useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
+  const moviesList = useMemo(() => {
+    return filterMovies(data, genre, filter);
+  }, [data, genre, filter]);
 
-  useEffect(() => {
-    if (movies.data) {
-      setList(movies.data);
+  const genreList = useMemo(() => extractGenreList(data), [data]);
 
-      setGenreList(
-        [
-          ...new Set(
-            movies?.data
-              ?.map((i) => i.genres.split(",").map((i) => i.trim()))
-              .flat()
-          ),
-        ].map((i) => {
-          return {
-            key: i,
-            value: i,
-          };
-        }) as any
-      );
-    }
-  }, [movies]); //memo
-
-  const onGenreChanged = (e) => {
-    if (e.target.value === "all") {
-      setList(movies?.data);
-      return;
-    }
-    setList(
-      movies?.data?.filter((i) =>
-        i.genres.toLowerCase().includes(e.target.value.toLowerCase())
-      )
-    );
+  const onGenreChanged = (e: any) => {
+    setGenre(e.target.value);
   };
 
-  const onFilter = (e) => {
-    // debounce
-    const term = e.target.value;
-
-    if (!term) {
-      setList(movies.data ?? []);
-      return;
-    }
-
-    if (term) {
-      setList(
-        list.filter((i) => i.title.toLowerCase().includes(term.toLowerCase()))
-      );
-    }
+  const onFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debounceFilter(e.target.value as any);
   };
+
+  const debounceFilter = useCallback(
+    debounce((_searchVal: string) => {
+      setFilter(_searchVal as any);
+    }, 300),
+    []
+  );
 
   return (
     <Container>
       <Text fontSize="xl">Movies from IMDB API</Text>
-      <Input
-        placeholder="Search here..."
-        name="filter-movies"
-        onChange={onFilter}
-      />
-      <Select placeholder="Genre" onChange={onGenreChanged}>
-        {genreList.map(({ key, value }) => (
-          <option value={key}>{value}</option>
-        ))}
-      </Select>
-      <MoviesList loading={movies?.status == "pending"} data={list} />
+      <HStack>
+        <Input
+          placeholder="Search here..."
+          name="filter-movies"
+          onChange={onFilter}
+        />
+        <Select
+          placeholder="Genre"
+          onChange={onGenreChanged}
+          options={genreList}
+        />
+      </HStack>
+      <MoviesVirtualList loading={status === "pending"} data={moviesList} />
     </Container>
   );
 };

@@ -4,9 +4,9 @@ import {
   AnyAction,
 } from "@reduxjs/toolkit";
 
-import type { RootState } from "../../app/store";
-import { API_URL, IMDB_API_KEY } from "../../app/constants";
-import { MovieState } from "./types";
+import type { RootState } from "@app/store";
+import { API_URL, IMDB_API_KEY } from "@app/constants";
+import { MovieState } from "@redux/movies/types";
 
 const endpoint = `${API_URL}/AdvancedSearch/${IMDB_API_KEY}?groups=top_250&count=250`;
 
@@ -33,14 +33,14 @@ export const movieSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {  
-    ["fetchMovies.pending"]: (state) => {
+    "fetchMovies.pending": (state) => {
       state.status = "pending";
     },
-    ["fetchMovies.fulfilled"]: (state, action: AnyAction) => {
+    "fetchMovies.fulfilled": (state, action: AnyAction) => {
       state.status = "fulfilled";
       state.data = action?.payload?.results;
     },
-    ["fetchMovies.rejected"]: (state, action: AnyAction) => {
+    "fetchMovies.rejected": (state, action: AnyAction) => {
       state.status = "error";
       state.error = action.error;
     },

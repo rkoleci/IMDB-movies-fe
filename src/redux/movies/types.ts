@@ -1,5 +1,3 @@
-import { FETCH_MOVIES } from "./constants";
-
 export type Movie = {
   contentRating: string;
   description: string;

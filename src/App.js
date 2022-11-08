@@ -1,23 +1,16 @@
-import React from "react";
-import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-
-import Movies from "./app/containers/Movies";
-import MovieDetails from "./app/containers/MovieDetails";
 import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-const theme = {
-  main: "mediumseagreen",
-};
+import MoviesRoute from "@routes/Movies";
+import MovieDetailsRoute from "@routes/Movies/MovieDetails";
 
 const App = () => {
   return (
     <ChakraProvider>
       <Router>
         <Routes>
-          <Route exact path="/" element={<Movies />} />
-          <Route exact path="/movie/:id" element={<MovieDetails />} />
+          <Route exact path="/" element={<MoviesRoute />} />
+          <Route exact path="/movie/:id" element={<MovieDetailsRoute />} />
         </Routes>
       </Router>
     </ChakraProvider>

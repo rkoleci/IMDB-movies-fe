@@ -7,6 +7,6 @@ interface IProps {
 
 export default function ContainerComponent({children}: IProps) {
     return (
-        <Container maxW='5xl' bg='blue.600' centerContent>{children}</Container>
+        <Container maxW='5xl' p='8' bg='white.100' centerContent>{children}</Container>
     )
 }

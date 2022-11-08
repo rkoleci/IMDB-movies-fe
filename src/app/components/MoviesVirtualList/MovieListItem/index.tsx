@@ -1,5 +1,5 @@
-import React from "react";
-import { ListItem, Link, Text, Image } from "@chakra-ui/react";
+import { ListItem, Text, Image } from "@chakra-ui/react";
+import { Link} from 'react-router-dom'
 
 interface IProps {
   id: string;
@@ -10,9 +10,9 @@ interface IProps {
 const MovieListItem = ({ id, title, image }: IProps) => {
   return (
     <ListItem>
-      <Link href={`/movie/${id}`}>
+      <Link to={`movie/${id}`}>
         <Text>{title}</Text>
-        <Image width={'100px'}  src={image} alt={title} />
+        <Image width={"100px"} src={image} alt={title} />
       </Link>
     </ListItem>
   );
