@@ -24,5 +24,6 @@ npm start
 ```
 
 _Note:_ react-virtualized is throwing a TS error but it is not breaking the code.
+
 _Note:_ API Key expires after 140 hits - need to generate a new one and set it in env file.
 
