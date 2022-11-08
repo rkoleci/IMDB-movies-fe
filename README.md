@@ -16,7 +16,7 @@
    Get the specific movie {id} from URL query param and find that specific movie in redux stage.
    Display movie details: image, title, length etc.
 
-RUN
+## Run
 
 ```sh
 npm install
