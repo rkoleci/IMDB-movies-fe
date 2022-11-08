@@ -10,7 +10,7 @@ import { selectMovies } from "@redux/movies/movieSlice";
 import { useAppSelector } from "@app/hooks";
 import { extractGenreList, filterMovies } from "@containers/Movies/helpers";
 
-/* API Key expires after 140 hits */
+/* API Key expires after 120 hits */
 
 const Movies = () => {
   const { data, status }: MovieState = useAppSelector(
@@ -18,7 +18,7 @@ const Movies = () => {
   ) as MovieState;
   const [genre, setGenre] = useState();
   const [filter, setFilter] = useState();
-
+    
   const moviesList = useMemo(() => {
     return filterMovies(data, genre, filter);
   }, [data, genre, filter]);

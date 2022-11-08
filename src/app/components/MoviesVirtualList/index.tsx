@@ -16,6 +16,7 @@ export default function MoviesVirtualList({ loading, data }: IProps) {
     return <Text>Search yields no results!</Text>;
   }
 
+
   const rowRenderer = ({
     index,
     key,

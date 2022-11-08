@@ -1,8 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  AnyAction,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, AnyAction } from "@reduxjs/toolkit";
 
 import type { RootState } from "@app/store";
 import { API_URL, IMDB_API_KEY } from "@app/constants";
@@ -28,22 +24,23 @@ export const fetchMovies = createAsyncThunk(
   }
 );
 
+
 export const movieSlice = createSlice({
   name: "movies",
   initialState,
   reducers: {},
-  extraReducers: {  
-    "fetchMovies.pending": (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchMovies.pending, (state) => {
       state.status = "pending";
-    },
-    "fetchMovies.fulfilled": (state, action: AnyAction) => {
+    });
+    builder.addCase(fetchMovies.fulfilled, (state, action: AnyAction) => {
       state.status = "fulfilled";
       state.data = action?.payload?.results;
-    },
-    "fetchMovies.rejected": (state, action: AnyAction) => {
+    });
+    builder.addCase(fetchMovies.rejected, (state, action: AnyAction) => {
       state.status = "error";
       state.error = action.error;
-    },
+    });
   },
 });
 

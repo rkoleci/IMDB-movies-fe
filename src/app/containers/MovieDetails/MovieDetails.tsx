@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Text, Image, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
-import Container from '@components/Container'
+import Container from "@components/Container";
 import { selectMovies } from "@redux/movies/movieSlice";
 import { Movie, MovieState } from "@redux/movies/types";
 import { useAppSelector } from "@app/hooks";
