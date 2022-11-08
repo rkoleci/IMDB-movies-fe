@@ -3,6 +3,7 @@
 - CRA (Create React App)
 - Typescript
 - Redux Toolkit
+- Redux Persist
 - ChakraUI
 - react-virtualized
   
@@ -11,7 +12,7 @@
 
 - /
    List of movies fetched from IMDB api, rendered in a virtualized list for optimized scroll performance
-   Api data contained in redux
+   Api data contained in redux. Persisted to re-store data in reload cases in details route
 - /movies/:{id}
    Get the specific movie {id} from URL query param and find that specific movie in redux stage.
    Display movie details: image, title, length etc.
