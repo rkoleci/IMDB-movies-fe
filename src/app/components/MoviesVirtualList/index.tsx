@@ -1,4 +1,4 @@
-import { Spinner, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import List from "react-virtualized/dist/commonjs/List";
 
 import MovieListItem from "@components/MoviesVirtualList/MovieListItem";
@@ -26,9 +26,9 @@ export default function MoviesVirtualList({ loading, data }: IProps) {
     key: string;
     style: any;
   }) => (
-    <div key={key} style={style}>
+    <Box key={key} style={style}>
       <MovieListItem {...data[index]} />
-    </div>
+    </Box>
   );
 
   return (

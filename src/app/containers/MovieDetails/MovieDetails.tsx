@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react";
-import { Text, Image, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Text, Image, Flex, Grid, GridItem, Spinner } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import Container from "@components/Container";
-import { selectMovies } from "@redux/movies/movieSlice";
+import { fetchMovies, selectMovies } from "@redux/movies/movieSlice";
 import { Movie, MovieState } from "@redux/movies/types";
-import { useAppSelector } from "@app/hooks";
+import { useAppDispatch, useAppSelector } from "@app/hooks";
 import InfoItem from "@containers/MovieDetails/InfoItem";
 
 const MovieDetails = () => {
   const { id } = useParams();
   const movies: MovieState = useAppSelector(selectMovies) as MovieState;
   const [data, setData] = useState<Movie>();
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
+    if (movies?.status === 'idle' || movies?.status === 'pending') {
+      dispatch(fetchMovies());
+    }
     if (id) {
       setData(movies?.data?.find((item: Movie) => item.id === id));
     }
@@ -22,6 +26,7 @@ const MovieDetails = () => {
   return (
     <Container>
       <Text>Movie Details</Text>
+      {movies?.status === 'pending' && <Spinner />}
       {data && (
         <Grid
           templateColumns={{
@@ -53,7 +58,7 @@ const MovieDetails = () => {
           </GridItem>
         </Grid>
       )}
-      {!id || (!data && <Text>Movie not found!</Text>)}
+      {(movies?.status !== 'pending' && !data) && <Text>Movie not found!</Text>}
     </Container>
   );
 };
